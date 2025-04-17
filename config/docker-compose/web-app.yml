@@ -1,0 +1,21 @@
+services:
+  web-app:
+    build:
+      context: ${PROJECT_ROOT}/components/node
+      target: dev
+    restart: unless-stopped
+    user: "${UID}:${GID}"
+    userns_mode: host
+    working_dir: /web-app
+    environment:
+      - HOME=/tmp
+    ports:
+      - "${PORT_WEB_APP}:5173"
+    volumes:
+      - ${PROJECT_ROOT}/components/web-app:/web-app:cached
+      - ${PROJECT_ROOT}/artifacts:/artifacts
+    command: npm run dev
+    tmpfs:
+      - /tmp:exec
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
