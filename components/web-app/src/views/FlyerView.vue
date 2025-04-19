@@ -24,6 +24,7 @@
 import {SDButton, SDSelect, SDTextArea, SDTextInput} from "@linkebonn/solid-ui";
 import {ref} from "vue";
 import Navbar from "@/components/Navbar.vue";
+import {createAction} from "@/api/api.ts";
 
 const colorOptions = [
   {
@@ -52,7 +53,19 @@ const onPrint = () => {
   document.querySelector("iframe").contentWindow.print()
 }
 
-const onCreateAction = () => {
+const onCreateAction = async () => {
+  try{
+    const createdAction = await createAction(
+      {
+        name: "test",
+        description: "test",
+        group_actor: "test"
+      }
+    )
+    console.log(createdAction)
+  }catch (e){
+    console.error('Error creating action:', e);
+  }
   isActionCreated.value = true
 }
 

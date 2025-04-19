@@ -28,6 +28,13 @@ pip *args='-h':
     {{WEB-APP-PYTHON-RUN}} .venv/bin/pip3.11 {{args}}
     {{WEB-APP-PYTHON-RUN}} .venv/bin/pip3.11 freeze
 
+flask *args='-h':
+    {{WEB-APP-PYTHON-RUN}} .venv/bin/python3.11 -m flask {{args}}
+
+db-migrate *args='-h':
+    {{WEB-APP-PYTHON-RUN}} .venv/bin/python3.11 -m flask db migrate -m "{{args}}"
+    {{WEB-APP-PYTHON-RUN}} .venv/bin/python3.11 -m flask db upgrade
+
 install:
 	@just build-docker-images
 	{{WEB-APP-NODE-RUN}} npm install --inline-builds

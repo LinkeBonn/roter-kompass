@@ -20,7 +20,6 @@ import {ref} from "vue";
 import {useRoute} from "vue-router";
 
 const route = useRoute()
-console.log(route.query)
 const colorScheme = ref(route.query.colorScheme ? route.query.colorScheme.toString() : "red");
 const link = ref(route.query.link ? route.query.link.toString() : "#");
 const firstHeadline = ref(route.query.firstHeadline ? route.query.firstHeadline.toString() : "");

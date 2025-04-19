@@ -28,6 +28,8 @@ services:
       - "${PORT_BACKEND}:5000"
     depends_on:
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ${PROJECT_ROOT}/components/backend:/backend:cached
     userns_mode: host

@@ -1,11 +1,10 @@
 <template>
   <Navbar/>
   <div class="action-container">
-    <div class="meta-container">
-      <h2>Aktionsname</h2>
-      <h3>Aktionsgruppe</h3>
-      <h4>Aktions Beschreibung Aktions Beschreibung Aktions Beschreibung Aktions Beschreibung Aktions Beschreibung
-        Aktions BeschreibungAktions BeschreibungAktions Beschreibung Aktions Beschreibung</h4>
+    <div v-if="action" class="meta-container">
+      <h2>{{action.name}}</h2>
+      <h3>{{action.group_actor}}</h3>
+      <h4>{{action.description}}</h4>
     </div>
     <h2>Sagen Sie uns Ihre Meinung!</h2>
     <div class="action-create">
@@ -23,6 +22,27 @@
 <script setup lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import {SDPostIt} from "@linkebonn/solid-ui";
+import {getOpinionsByAction} from "@/api/api.ts";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
+import type {ActionResponse} from "../../env";
+
+const route = useRoute()
+const action = ref<ActionResponse | null>(null)
+
+const fetchData = async () => {
+  try{
+    action.value = await getOpinionsByAction(route.params.aktionId ? route.params.aktionId.toString() : '');
+  }catch (e){
+    console.error('Error creating action:', e);
+  }
+}
+
+watch(() => route.params.actionId, fetchData, { immediate: true })
+
+const onOpinionSubmit = () => {
+
+}
 
 </script>
 
@@ -53,7 +73,12 @@ import {SDPostIt} from "@linkebonn/solid-ui";
 }
 
 .meta-container {
-  gap: 1em;
   padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  width: 100%;
+  gap: .5em;
 }
 </style>

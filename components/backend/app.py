@@ -1,7 +1,11 @@
-from flask import Flask
+from app import create_app
+from dotenv import load_dotenv
+import os
 
-app = Flask(__name__)
+load_dotenv()
 
-@app.route("/hello")
-def hello_world():
-    return "<p>Hello, World!</p>"
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+
