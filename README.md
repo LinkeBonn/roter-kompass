@@ -1,4 +1,4 @@
-# Die Kommunale
+# Roter Kompass
 
 ## Setup
 
