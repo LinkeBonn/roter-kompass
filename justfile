@@ -10,6 +10,7 @@ export ENV_FILE := if path_exists('.env.local') == 'true' { '.env.local' } else 
 WEB-APP-COMPOSE := 'docker compose -p ' + env_var('NAME') + ' -f config/docker-compose/web-app.yml --env-file ' + ENV_FILE
 WEB-APP-COMPOSE-RUN := WEB-APP-COMPOSE + ' run --rm'
 WEB-APP-NODE-RUN := WEB-APP-COMPOSE-RUN + ' --no-deps web-app'
+WEB-APP-PYTHON-RUN := WEB-APP-COMPOSE-RUN + ' --no-deps backend'
 
 help:
 	@just --list
@@ -23,10 +24,17 @@ npx *args='-h':
 enter:
 	{{WEB-APP-NODE-RUN}} bash
 
+pip *args='-h':
+    {{WEB-APP-PYTHON-RUN}} .venv/bin/pip3.11 {{args}}
+    {{WEB-APP-PYTHON-RUN}} .venv/bin/pip3.11 freeze
+
 install:
 	@just build-docker-images
 	{{WEB-APP-NODE-RUN}} npm install --inline-builds
-	@echo "\n Install finished 🎉"
+	@echo "\n Web App Install finished 🎉"
+	{{WEB-APP-PYTHON-RUN}} python3 -m venv .venv
+	{{WEB-APP-PYTHON-RUN}} .venv/bin/pip3.11 install -r requirements.txt
+	@echo "\n Backend Install finished 🎉"
 
 build:
     {{WEB-APP-NODE-RUN}} npm build

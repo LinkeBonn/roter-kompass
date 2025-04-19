@@ -17,5 +17,37 @@ services:
     command: npm run dev
     tmpfs:
       - /tmp:exec
+    depends_on: ['db']
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  backend:
+    build:
+      context: ${PROJECT_ROOT}/components/python
+    working_dir: /backend
+    ports:
+      - "${PORT_BACKEND}:5000"
+    depends_on:
+      - db
+    volumes:
+      - ${PROJECT_ROOT}/components/backend:/backend:cached
+    userns_mode: host
+    user: "${UID}:${GID}"
+    command: .venv/bin/python3.11 -m flask run --host=0.0.0.0
+  db:
+    image: postgres
+    ports:
+      - "${PORT_PG_DB}:5432"
+    environment:
+      POSTGRES_USER: ${PG_ADMIN}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB_NAME}
+    shm_size: 128mb
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    user: "${UID}:${GID}"
+    userns_mode: host
+
+volumes:
+  pg_data:
+    external: false

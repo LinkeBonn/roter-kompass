@@ -32,3 +32,10 @@ coverage
 .env
 .env.*
 .npmrc
+
+.venv
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+__pypackages__/
