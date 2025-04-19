@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+
+import Flyer from "@/components/Flyer.vue";
 </script>
 
 <template>
-  <RouterView />
+  <Flyer link=""/>
 </template>
 
 <style scoped>

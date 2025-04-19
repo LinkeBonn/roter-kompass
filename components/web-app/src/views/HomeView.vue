@@ -1,5 +1,6 @@
 <template>
   <main>
+    <Navbar/>
     <div class="container">
       <div class="center-col">
         <div class="center-row">
@@ -7,7 +8,8 @@
           <img src="../assets/logo.svg" alt="logo" class="compass-logo"/>
           <h1>Kompass</h1>
         </div>
-    <SDPoster color-scheme="red" first-headline="Empathische Politik" second-headline=" statt Lobbyismus!" sub-headline="Zeig uns deine Meinung."/>
+        <SDPoster color-scheme="red" first-headline="Menschennahe Politik"
+                  second-headline=" statt Lobbyismus!" sub-headline="Zeig uns deine Meinung."/>
       </div>
     </div>
   </main>
@@ -15,6 +17,8 @@
 
 <script setup lang="ts">
 import {SDPoster} from "@linkebonn/solid-ui"
+import Navbar from "@/components/Navbar.vue";
+
 </script>
 
 <style scoped>
@@ -24,7 +28,7 @@ import {SDPoster} from "@linkebonn/solid-ui"
   align-items: center;
   justify-content: center;
   width: 100%;
-  gap: 15px;
+  gap: 30px;
 }
 
 .center-row {
@@ -37,7 +41,7 @@ import {SDPoster} from "@linkebonn/solid-ui"
   flex-wrap: wrap;
 }
 
-.compass-logo{
+.compass-logo {
   width: 100px;
 }
 </style>
