@@ -18,7 +18,7 @@
   flex-direction: row;
   background-color: white;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
-  margin-bottom: 15px;
+  margin-bottom: 35px;
 }
 
 .logo {
