@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import FlyerView from "@/views/FlyerView.vue";
 import PreviewView from "@/views/PreviewView.vue";
 import AktionView from "@/views/AktionView.vue";
+import HowToView from "@/views/HowToView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       name: 'aktion',
       component: AktionView
     },
+    {
+      path: '/how-to',
+      name: 'how-to',
+      component: HowToView
+    }
   ],
 })
 
