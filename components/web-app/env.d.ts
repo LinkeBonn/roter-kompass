@@ -6,10 +6,10 @@ export interface Action {
 }
 
 export interface Opinion {
-  id: number;
+  id?: number;
   text: string;
   author: string;
-  action_id: string;
+  action_id?: string;
 }
 
 export interface ActionResponse {

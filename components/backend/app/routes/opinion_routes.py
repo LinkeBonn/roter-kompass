@@ -3,9 +3,11 @@ from app.extensions import db
 from app.models.opinion import Opinion
 from app.models.action import Action
 from app.schemas.opinion_schema import OpinionSchema
+from app.schemas.action_schema import ActionSchema, ActionDetailSchema
 
 opinion_bp = Blueprint("opinion", __name__)
 opinion_schema = OpinionSchema()
+action_schema = ActionDetailSchema()
 
 @opinion_bp.route("/", methods=["POST"])
 def create_opinion():
@@ -37,5 +39,4 @@ def get_opinion_by_action(action_id):
     if not action:
         return jsonify({"error": "Action nicht gefunden"}), 404
 
-    opinion = Opinion.query.filter_by(action_id=action_id).all()
-    return jsonify(opinion_schema.dump(opinion)), 200
+    return jsonify(action_schema.dump(action)), 200

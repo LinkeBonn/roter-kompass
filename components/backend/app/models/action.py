@@ -18,6 +18,7 @@ class Action(db.Model):
     name = db.Column(db.String(100), nullable=False)
     group_actor = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
+    opinions = db.relationship("Opinion", backref="parent_action", lazy=True)
 
     def __init__(self, **kwargs):
         if "id" not in kwargs:

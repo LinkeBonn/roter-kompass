@@ -21,7 +21,7 @@ export const createAction = async (actionData: Omit<Action, 'id'>): Promise<Acti
 
 export const getOpinionsByAction = async (actionId: string): Promise<ActionResponse> => {
   try {
-    const response = await api.get<ActionResponse>(`/action/${actionId}`);
+    const response = await api.get<ActionResponse>(`/opinion/action/${actionId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching opinions:', error);
@@ -31,7 +31,7 @@ export const getOpinionsByAction = async (actionId: string): Promise<ActionRespo
 
 export const createOpinion = async (opinionData: Omit<Opinion, 'id'>): Promise<Opinion> => {
   try {
-    const response = await api.post<Opinion>('/opinion', opinionData);
+    const response = await api.post<Opinion>('/opinion/', opinionData);
     return response.data;
   } catch (error) {
     console.error('Error creating opinion:', error);

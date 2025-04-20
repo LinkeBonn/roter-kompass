@@ -4,11 +4,12 @@
     <div class="input-container">
       <h2>Erstelle einen Flyer</h2>
       <h3>Schritt 1 Aktion Erstellen</h3>
-      <SDTextInput mode="primary" color-scheme="red" label="Aktionsname" :disabled="isActionCreated"/>
-      <SDTextInput mode="primary" color-scheme="red" label="Aktionsgruppe" :disabled="isActionCreated"/>
-      <SDTextArea style="width: 55%" mode="primary" color-scheme="red" label="Aktionsbeschreibung" :disabled="isActionCreated"/>
+      <SDTextInput mode="primary" color-scheme="red" label="Aktionsname" :disabled="isActionCreated" @on-change="onActionNameChange"/>
+      <SDTextInput mode="primary" color-scheme="red" label="Aktionsgruppe" :disabled="isActionCreated" @on-change="onActionGroupChange"/>
+      <SDTextArea style="width: 55%" mode="primary" color-scheme="red" label="Aktionsbeschreibung" :disabled="isActionCreated" @on-change="onActionDescriptionChange"/>
       <SDButton mode="primary" color-scheme="red" label="Aktion erstellen" @onClick="onCreateAction" :disabled="isActionCreated"/>
       <h3>Schritt 2 Flyer Drucken</h3>
+      <h4 v-if="actionId" @click="onActionIdClick" class="action-id">Aktions ID: {{actionId}} <font-awesome-icon icon="save" /></h4>
       <SDSelect label="Flyer Farbe" mode="primary" color-scheme="red" :options="colorOptions" @on-select="onFlyerColorChange" :disabled="!isActionCreated"/>
       <SDTextInput mode="primary" color-scheme="red" label="Erste Überschrift" @on-change="onFlyerFirstHeadlineChange" :disabled="!isActionCreated"/>
       <SDTextInput mode="primary" color-scheme="red" label="Zweite Überschrift" @on-change="onFlyerSecondaryHeadlineChange" :disabled="!isActionCreated"/>
@@ -25,6 +26,9 @@ import {SDButton, SDSelect, SDTextArea, SDTextInput} from "@linkebonn/solid-ui";
 import {ref} from "vue";
 import Navbar from "@/components/Navbar.vue";
 import {createAction} from "@/api/api.ts";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {useNotification} from "@kyvg/vue3-notification";
+const { notify }  = useNotification()
 
 const colorOptions = [
   {
@@ -45,8 +49,12 @@ const colorOptions = [
   },
 ]
 
-const previewLink = ref("preview?firstHeadline=Menschennahe%20Politik&secondHeadline=%20statt%20Lobbyismus%21&subHeadline=Zeig%20uns%20deine%20Meinung.&colorScheme=red&link=https://roter-kompass.linkebonn.de/aktion/test")
+const previewLink = ref("preview?firstHeadline=Menschennahe%20Politik&secondHeadline=%20statt%20Lobbyismus%21&subHeadline=Zeig%20uns%20deine%20Meinung.&colorScheme=red&link=https://roter-kompass.linkebonn.de/aktion")
 const isActionCreated = ref(false)
+const actionId = ref("")
+const actionName = ref("")
+const actionGroup = ref("")
+const actionDescription = ref("")
 
 const onPrint = () => {
   //@ts-ignore
@@ -57,16 +65,20 @@ const onCreateAction = async () => {
   try{
     const createdAction = await createAction(
       {
-        name: "test",
-        description: "test",
-        group_actor: "test"
+        name: actionName.value,
+        description: actionDescription.value,
+        group_actor: actionGroup.value,
       }
     )
-    console.log(createdAction)
+    isActionCreated.value = true
+    onActionIdChange(createdAction.id)
   }catch (e){
-    console.error('Error creating action:', e);
+    notify({
+      title: "Fehler",
+      text: `Es gab ein Problem bei der Erstellung der Aktion`,
+      type: "error",
+    })
   }
-  isActionCreated.value = true
 }
 
 const onFlyerColorChange = (flyerColor: string) => {
@@ -83,6 +95,32 @@ const onFlyerSecondaryHeadlineChange = (flyerSecondHeadline: string) => {
 
 const onFlyerSubHeadlineChange = (flyerSubHeadline: string) => {
   previewLink.value = previewLink.value.replace(/(subHeadline=)[^&]*/, `$1${flyerSubHeadline}`)
+}
+
+const onActionIdChange = (flyerActionId: string) => {
+  actionId.value = flyerActionId
+  notify({
+    title: "Erfolgreich",
+    text: `Eine Aktion mit der ID ${flyerActionId} wurde erstellt`,
+    type: "success",
+  })
+  previewLink.value = previewLink.value.replace(/(link=)[^&]*/, `$1https://roter-kompass.linkebonn.de/aktion/${flyerActionId}`)
+}
+
+const onActionNameChange = (flyerActionName: string) => {
+  actionName.value = flyerActionName
+}
+
+const onActionGroupChange = (flyerActionGroup: string) => {
+  actionGroup.value = flyerActionGroup
+}
+
+const onActionDescriptionChange = (flyerActionDescription: string) => {
+  actionDescription.value = flyerActionDescription
+}
+
+const onActionIdClick = () => {
+  navigator.clipboard.writeText(actionId.value)
 }
 
 </script>
@@ -118,5 +156,15 @@ const onFlyerSubHeadlineChange = (flyerSubHeadline: string) => {
   align-items: start;
   justify-content: space-between;
   gap: 15px;
+}
+
+.action-id {
+  color: var(--primary-red-text);
+  cursor: pointer;
+}
+
+.action-id:hover {
+  color: var(--primary-red-active);
+  cursor: pointer;
 }
 </style>

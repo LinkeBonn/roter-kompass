@@ -1,4 +1,3 @@
-# justfile, see https://github.com/casey/just for more information
 set dotenv-load := true
 
 export PROJECT_ROOT := justfile_directory()
