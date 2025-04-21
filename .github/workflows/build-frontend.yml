@@ -33,7 +33,7 @@ jobs:
             --build-arg VITE_BACKEND_API_URL=${{ secrets.VITE_BACKEND_API_URL }} \
             --build-arg VITE_BASE_URL=${{ secrets.VITE_BASE_URL }} \
             --build-arg GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-            -t ghcr.io/${{ github.repository_owner }}/roter-kompass-frontend:latest \
+            -t ghcr.io/linkebonn/roter-kompass-frontend:latest \
             .
 
-          docker push ghcr.io/${{ github.repository_owner }}/roter-kompass-frontend:latest
+          docker push ghcr.io/linkebonn/roter-kompass-frontend:latest

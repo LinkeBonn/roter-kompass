@@ -30,8 +30,8 @@ jobs:
         run: |
           docker build \
             --target prod \
-            -t ghcr.io/${{ github.repository_owner }}/roter-kompass-backend:latest \
+            -t ghcr.io/linkebonn/roter-kompass-backend:latest \
             -f components/python/Dockerfile \
             . # Wichtig: Kontext ist das Root-Verzeichnis!
 
-          docker push ghcr.io/${{ github.repository_owner }}/roter-kompass-backend:latest
+          docker push ghcr.io/linkebonn/roter-kompass-backend:latest
