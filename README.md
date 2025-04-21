@@ -14,27 +14,36 @@ docker-compose
 just install
 ```
 
-Create .env.local of the Project
+Create .env of the Project
 ```
-NAME=
-PORT_WEB_APP=
+NAME={z.B. roter-kompass}
+PORT_WEB_APP={z.B. 5173}
+GITHUB_TOKEN={github token for solid-ui package}
 
-PORT_BACKEND=
+PORT_BACKEND={z.B. 8080}
 
-PORT_PG_DB=
-PG_ADMIN=
-PG_PASSWORD=
-PG_DB_NAME=
-```
-
-Create .env.local of the Web-App
+PORT_PG_DB={z.B. 5432}
+PG_ADMIN={z.B. dev}
+PG_PASSWORD={z.B. dev}
+PG_DB_NAME={z.B. dev}
 ```
 
+Create .env of the Web-App
+```
+VITE_BACKEND_API_URL={z.B. http://localhost:8080/api}
+VITE_BASE_URL={z.B. http://localhost:5173}
 ```
 
-Create .env.local of the Backend
+Create .npmrc for the Web-App
+```
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+@linkebonn:registry=https://npm.pkg.github.com
 ```
 
+Create .env of the Backend
+```
+PORT={z.B. 5000}
+DATABASE_URL={z.B. postgresql://dev:dev@host.docker.internal:5432/dev}
 ```
 
 ## Development

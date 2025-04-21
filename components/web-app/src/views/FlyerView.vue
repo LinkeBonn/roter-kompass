@@ -7,7 +7,7 @@
       <SDTextInput mode="primary" color-scheme="red" label="Aktionsname" :disabled="isActionCreated" @on-change="onActionNameChange"/>
       <SDTextInput mode="primary" color-scheme="red" label="Aktionsgruppe" :disabled="isActionCreated" @on-change="onActionGroupChange"/>
       <SDTextArea style="width: 55%" mode="primary" color-scheme="red" label="Aktionsbeschreibung" :disabled="isActionCreated" @on-change="onActionDescriptionChange"/>
-      <SDButton mode="primary" color-scheme="red" label="Aktion erstellen" @onClick="onCreateAction" :disabled="isActionCreated"/>
+      <SDButton mode="primary" color-scheme="red" label="Aktion erstellen" @onClick="onCreateAction" :disabled="isActionCreated || (!actionName || !actionGroup)"/>
       <h3>Schritt 2 Flyer Drucken</h3>
       <h4 v-if="actionId" @click="onActionIdClick" class="action-id">Aktions ID: {{actionId}} <font-awesome-icon icon="save" /></h4>
       <SDSelect label="Flyer Farbe" mode="primary" color-scheme="red" :options="colorOptions" @on-select="onFlyerColorChange" :disabled="!isActionCreated"/>
@@ -49,7 +49,8 @@ const colorOptions = [
   },
 ]
 
-const previewLink = ref("preview?firstHeadline=Menschennahe%20Politik&secondHeadline=%20statt%20Lobbyismus%21&subHeadline=Zeig%20uns%20deine%20Meinung.&colorScheme=red&link=https://roter-kompass.linkebonn.de/aktion")
+const baseUrl = import.meta.env.VITE_BASE_URL
+const previewLink = ref(`preview?firstHeadline=Menschennahe%20Politik&secondHeadline=%20statt%20Lobbyismus%21&subHeadline=Zeig%20uns%20deine%20Meinung.&colorScheme=red&link=${baseUrl}/aktion`)
 const isActionCreated = ref(false)
 const actionId = ref("")
 const actionName = ref("")
@@ -104,7 +105,7 @@ const onActionIdChange = (flyerActionId: string) => {
     text: `Eine Aktion mit der ID ${flyerActionId} wurde erstellt`,
     type: "success",
   })
-  previewLink.value = previewLink.value.replace(/(link=)[^&]*/, `$1https://roter-kompass.linkebonn.de/aktion/${flyerActionId}`)
+  previewLink.value = previewLink.value.replace(/(link=)[^&]*/, `$1${baseUrl}/aktion/${flyerActionId}`)
 }
 
 const onActionNameChange = (flyerActionName: string) => {

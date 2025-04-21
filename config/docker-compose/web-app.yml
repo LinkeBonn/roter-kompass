@@ -9,6 +9,7 @@ services:
     working_dir: /web-app
     environment:
       - HOME=/tmp
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
     ports:
       - "${PORT_WEB_APP}:5173"
     volumes:
