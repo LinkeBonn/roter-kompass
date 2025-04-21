@@ -35,11 +35,11 @@ RUN echo "@your-org:registry=https://npm.pkg.github.com/" > .npmrc \
  && echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
 
 # Installiere Dependencies
-COPY package*.json ./
-RUN npm ci
+COPY ./components/web-app/package*.json ./
+RUN npm install
 
 # Kopiere Rest der App
-COPY . .
+COPY ./components/web-app .
 
 # Baue das Projekt
 RUN npm run build
@@ -48,6 +48,7 @@ RUN npm run build
 FROM nginx:alpine AS production
 
 COPY --from=builder /app/dist /usr/share/nginx/html
+COPY ./components/node/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

@@ -17,8 +17,8 @@
         @on-submit="onOpinionSubmit"
       />
     </div>
-    <h2 v-if="action?.opinions.length > 0">Gesammelte Meinungen</h2>
-    <div v-if="action?.opinions.length > 0" class="action-board primary-red--inverted">
+    <h2 v-if="action && action.opinions && action.opinions.length > 0">Gesammelte Meinungen</h2>
+    <div v-if="action && action.opinions && action.opinions.length > 0" class="action-board primary-red--inverted">
       <SDPostIt
         class="opinion"
         v-for="opinion in action.opinions"
@@ -44,7 +44,7 @@
 import Navbar from "@/components/Navbar.vue";
 import {SDButton, SDPostIt, SDTextInput} from "@linkebonn/solid-ui";
 import {createOpinion, getOpinionsByAction} from "@/api/api.ts";
-import {computed, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import type {ActionResponse, Opinion} from "../../env";
 import {notify} from "@kyvg/vue3-notification";

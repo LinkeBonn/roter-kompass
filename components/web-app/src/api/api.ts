@@ -2,6 +2,7 @@ import axios from 'axios';
 import type {Action, ActionResponse, Opinion} from "../../env";
 
 const api = axios.create({
+  //@ts-expect-error ts doesnt know meta.env
   baseURL: import.meta.env.VITE_BACKEND_API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -9,7 +10,6 @@ const api = axios.create({
 });
 
 export const createAction = async (actionData: Omit<Action, 'id'>): Promise<Action> => {
-  console.log(import.meta.env);
   try {
     const response = await api.post<Action>('/action/', actionData);
     return response.data;

@@ -6,6 +6,7 @@ import AktionView from "@/views/AktionView.vue";
 import HowToView from "@/views/HowToView.vue";
 
 const router = createRouter({
+  //@ts-expect-error ts doesnt know meta.env
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

@@ -27,10 +27,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m venv /venv
 
 # Aktiviere venv + installiere Abhängigkeiten
-COPY requirements.txt ./
+COPY ./components/backend/requirements.txt ./
 RUN . /venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
+RUN . /venv/bin/activate &&  pip install gunicorn
 
-COPY . .
+COPY ./components/backend .
 
 # ========== Dev Stage ==========
 FROM base as dev
@@ -61,4 +62,4 @@ ENV PORT=8000
 
 EXPOSE ${PORT}
 
-CMD ["gunicorn", "--bind", "0.0.0.0:${PORT}", "app:app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT wsgi:app"]

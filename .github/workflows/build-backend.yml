@@ -26,12 +26,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+
       - name: Build and push backend image
         run: |
           docker build \
             --target prod \
-            -t ghcr.io/linkebonn/roter-kompass-backend:latest \
+            -t ghcr.io/linkebonn/roter-kompass-backend:${{ steps.meta.outputs.tags }} \
             -f components/python/Dockerfile \
-            . # Wichtig: Kontext ist das Root-Verzeichnis!
+            .
 
-          docker push ghcr.io/linkebonn/roter-kompass-backend:latest
+          docker push ghcr.io/linkebonn/roter-kompass-backend:${{ steps.meta.outputs.tags }}

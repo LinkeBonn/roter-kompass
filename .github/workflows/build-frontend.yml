@@ -26,14 +26,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+
       - name: Build and push frontend image
         run: |
           docker build \
             -f components/node/Dockerfile \
             --build-arg VITE_BACKEND_API_URL=${{ secrets.VITE_BACKEND_API_URL }} \
             --build-arg VITE_BASE_URL=${{ secrets.VITE_BASE_URL }} \
-            --build-arg GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-            -t ghcr.io/linkebonn/roter-kompass-frontend:latest \
+            --build-arg GITHUB_TOKEN=${{ secrets.GHRC_TOKEN }} \
+            -t ghcr.io/linkebonn/roter-kompass-frontend:${{ steps.meta.outputs.tags }} \
             .
 
-          docker push ghcr.io/linkebonn/roter-kompass-frontend:latest
+          docker push ghcr.io/linkebonn/roter-kompass-frontend:${{ steps.meta.outputs.tags }}

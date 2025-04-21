@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  backend:
+    image: ghcr.io/linkebonn/roter-kompass-backend:main
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      DATABASE_URL: postgresql://user:password@db:5432/mydb
+      FRONTEND_URL: http://localhost:8080
+    depends_on:
+      - db
+
+  frontend:
+    image: ghcr.io/linkebonn/roter-kompass-frontend:main
+    ports:
+      - "8080:80"
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pg_data:
+

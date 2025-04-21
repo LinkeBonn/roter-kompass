@@ -49,6 +49,7 @@ const colorOptions = [
   },
 ]
 
+//@ts-expect-error ts doesnt know meta.env
 const baseUrl = import.meta.env.VITE_BASE_URL
 const previewLink = ref(`preview?firstHeadline=Menschennahe%20Politik&secondHeadline=%20statt%20Lobbyismus%21&subHeadline=Zeig%20uns%20deine%20Meinung.&colorScheme=red&link=${baseUrl}/aktion`)
 const isActionCreated = ref(false)
