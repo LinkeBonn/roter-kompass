@@ -7,6 +7,7 @@ on:
       - 'components/python/**'
       - '.github/workflows/build-backend.yml'
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
