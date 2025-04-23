@@ -23,17 +23,29 @@
   flex-direction: row;
   background-color: white;
   justify-content: start;
-  padding: 0 2em;
+  padding: 0 1em;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
   margin-bottom: 35px;
+
+  @media screen and (min-width: 600px) {
+    padding: 0 2em;
+  }
 }
 
 .logo {
-  width: 100px;
+  width: 50px;
+
+  @media screen and (min-width: 600px) {
+    width: 100px;
+  }
 }
 
 .logo-wrapper {
-  margin: 10px 4em 10px 10px;
+  margin: 10px 2em 10px 10px;
+
+  @media screen and (min-width: 600px) {
+    margin: 10px 4em 10px 10px;
+  }
 }
 
 .link-wrapper {
