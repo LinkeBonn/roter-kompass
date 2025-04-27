@@ -23,7 +23,8 @@ services:
       - "host.docker.internal:host-gateway"
   backend:
     build:
-      context: ${PROJECT_ROOT}/components/python
+      context: ${PROJECT_ROOT}
+      dockerfile: ${PROJECT_ROOT}/components/python/Dockerfile
     working_dir: /backend
     ports:
       - "${PORT_BACKEND}:5000"
